@@ -1,0 +1,66 @@
+{% block body %}
+
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+<footer class="main-footer" id="footer">
+  <!-- To the right -->
+   <!-- this is default footer -->
+  <div class="float-right d-none d-sm-inline">
+    Anything you want
+  </div>
+  <!-- Default to the left -->
+  <strong>Copyright &copy; 2021 <a href="https://credext.com">Credext</a>.</strong> All rights reserved.
+  
+</footer>
+</div>
+<!-- ./wrapper -->
+{% endblock %}
+
+{% block javascript %}
+<script>
+var currentdate = new Date(); 
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var datetime = "Last Updated:  " + currentdate.getDate() + " "
+              + months[currentdate.getMonth()]  + ", " 
+              + currentdate.getFullYear() + " "  
+              + currentdate.getHours() + ":"  
+              + currentdate.getMinutes();
+document.getElementById("last_updated_on").innerHTML = datetime;
+
+$("#menu_element").attr({"data-widget":"treeview", 
+              "data-accordion":"false"});
+controller_name = "{{request.path}}"
+url = "page url"
+
+$("#menu_element a").each(function() {
+  console.log($(this).attr('icon'));
+  icon = $(this).attr('icon');
+  right_icon = $(this).attr('right_icon');
+  id = $(this).attr('id');
+  content = $(this).text();
+  if(icon) {
+    $(this).empty();
+    $(this).append( '<i class="nav-icon fas '+ icon +'"></i><p>'+content+'</p>' );
+  }
+
+  if(right_icon) {
+    $(this).append( '<i class="fas fa-angle-left right"></i>' );
+  }
+
+  if(controller_name == id) {
+    $(this).parent().attr('class', 'nav-item has-treeview menu-open');
+    $(this).attr('class', 'nav-link active');
+  }
+  if(url == id) {
+    $(this).attr('class', 'nav-link active');
+  }
+});
+$('.nav-treeview li').each(function() {
+  $(this).attr('class','nav-item');
+});
+
+
+</script>
+{% endblock %}

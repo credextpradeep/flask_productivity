@@ -1,0 +1,38 @@
+{% extends 'base2.html' %}
+{% block content %}
+{% include 'flashmsg.html' %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-lg-12">
+      <div class="card elevation-3">
+        <div class="card-body">
+          <center><img src="{{url_for('static', filename='img/adminLTE3/img/ygologo.png')}}" alt="YGo Logo" class="brand-image " style="margin-bottom: 1rem"></center>
+          <p class="login-box-msg">by <b>Credext Technologies</b></p>
+          <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Username" aria-label=" username" aria-describedby="" name="username">
+              <div class="input-group-append">
+                <span class="input-group-text fas fa-envelope" id=""></span>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" placeholder="******" aria-label="password" aria-describedby="" name="password">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class=" fas fa-lock"></span></span>
+                </div>  
+              </div> 
+            </div>
+            <div class="input-group form-check mb-3">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Remember me</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

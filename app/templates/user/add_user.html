@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<div class="col-12 col-sm-6 col-lg-6">
+  <h3>Add New User</h3>
+</div>
+<div class="col-sm-6 col-lg-6 d-none d-lg-block">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{url_for('home.index')}}">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Users</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add User</li>
+  </ol>
+</div>
+{% endblock %}
+{% block content %}
+{% include 'flashmsg.html' %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-lg-8 col-md-6 m-auto">
+      <div class="card mt-3">
+        <h5 class="card-header">Basic Information</h5>
+        <div class="card-body">
+          {% if basicInfoForm.errors %}
+            {% for field, errors in basicInfoForm.errors.items() %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ ' '.join(errors) }}</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+          {% endif %}
+          <form action="" method="POST">
+            <div class="row mb-3">
+              {{ basicInfoForm.username.label(class="col-sm-4 col-form-label fw-bold")}}
+              <div class="col-sm-8">
+                {{ basicInfoForm.username(class="form-control")}}
+              </div>
+            </div>
+            <div class="row mb-3">
+              {{ basicInfoForm.firstname.label(class="col-sm-4 col-form-label fw-bold")}}
+              <div class="col-sm-8">
+                {{ basicInfoForm.firstname(class="form-control")}}
+              </div>
+            </div>
+            <div class="row mb-3">
+              {{ basicInfoForm.lastname.label(class="col-sm-4 col-form-label fw-bold")}}
+              <div class="col-sm-8">
+                {{ basicInfoForm.lastname(class="form-control")}}
+              </div>
+            </div>
+            <div class="row mb-3">
+              {{ basicInfoForm.email.label(class="col-sm-4 col-form-label fw-bold")}}
+              <div class="col-sm-8">
+                {{ basicInfoForm.email(class="form-control")}}
+              </div>
+            </div>
+            <div class="row mb-3">
+              {{ basicInfoForm.status.label(class="col-sm-4 col-form-label fw-bold")}}
+              <div class="col-sm-8">
+                {{ basicInfoForm.status(class="form-control")}}
+              </div>
+            </div>
+            {% include 'settings/config-form.html' %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

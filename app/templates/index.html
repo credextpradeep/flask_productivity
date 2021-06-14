@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<div class="col-sm-6">
+  <h1 class="m-0">Dashboard</h1>
+</div><!-- /.col -->
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item">Home</li>
+  </ol>
+</div>
+{% endblock %}
+{% block content %}
+{% include 'flashmsg.html' %}
+<div class="container-fluid">
+  <!-- Small boxes (Stat box) -->
+  <div class="row">
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-info">
+        <div class="inner">
+          <h3>150</h3>
+
+          <p>All Users</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-success">
+        <div class="inner">
+          <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+          <p>Yesterday's login count</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-locked"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-warning">
+        <div class="inner">
+          <h3>44</h3>
+
+          <p>Active Users</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-log-in"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-danger">
+        <div class="inner">
+          <h3>65</h3>
+
+          <p>Allowed apps</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-android-apps"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+  </div>
+  <!-- /.row -->
+  <!-- Main row -->
+  <div class="row">
+    <!-- Left col -->
+    <section class="col-lg-12 connectedSortable">
+      <!-- Custom tabs (Charts with tabs)-->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            Yesterday's Best Performers
+          </h3>
+        </div><!-- /.card-header -->
+        <div class="card-body">
+        </div><!-- /.card-body -->
+      </div>
+    </section>
+    <section class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card direct-chat direct-chat-primary">
+            <div class="card-header">
+              <h3 class="card-title">Avg Working Hours of last 7 Days</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <canvas id="myChart1" width="400" height="400"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card direct-chat direct-chat-primary">
+            <div class="card-header">
+              <h3 class="card-title">Idle Hours For Last Seven Days</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <canvas id="myChart" width="400" height="400"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/.direct-chat -->
+      <!-- /.card -->
+    </section>
+    <!-- /.Left col -->
+  </div>
+  <!-- /.row (main row) -->
+</div>
+{% endblock %}
