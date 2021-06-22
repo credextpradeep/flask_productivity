@@ -18,7 +18,7 @@ class UpdateUser(FlaskForm):
                         [Email(),
                         DataRequired("Email address cannot be empty"), ],
                         render_kw={"placeholder": "Last Name", 'required':True})
-    submit          = SubmitField("Update Now")
+    submit          = SubmitField("Update User")
 
     def __init__(self, *args, **kwargs):
         FlaskForm.__init__(self, *args, **kwargs)

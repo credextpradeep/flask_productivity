@@ -24,7 +24,7 @@ class RegisterUserBasicInformation(FlaskForm):
                                 render_kw={"type": "email", "placeholder": "Email", 'required':True, 'class':"form-control"})
     
     status          = SelectField('Status',
-                                coerce=int,
+                                coerce=str,
                                 render_kw={'class':"form-control"})
 
 

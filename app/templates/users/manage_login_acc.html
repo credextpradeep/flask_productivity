@@ -1,3 +1,5 @@
+{% set active_page ='accounts' %}
+{% set active_inner ='manageAcc' %}
 {% extends 'base.html' %}
 {% block breadcrumb %}
 <div class="col-12 col-sm-6 col-lg-6">
@@ -19,12 +21,13 @@
       <div class="card card-table mb-3">
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="manage_existing_users">
+            <table class="table table-bordered table-striped table-hover" id="manage_existing_users">
               <thead>
                 <th>Username</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Type</th>
+                <th></th>
                 <th></th>
               </thead>
               <tbody>
@@ -39,6 +42,7 @@
                   <td>Orgadmin</td>
                   {% endif %}
                   <td><a href="{{url_for('login_account.edit_user',username=user.username)}}"><i class="fas fa-edit"></i></a> </td>
+                  <td><a id="{{user.username}}" href="{{url_for('login_account.del_loginUser',user_id=user.id)}}" class="delete-login-user" userid="{{ user.id }}"><i class="fas fa-trash"></i></a> </td>
                 </tr>
                 {% endfor %}
               </tbody>

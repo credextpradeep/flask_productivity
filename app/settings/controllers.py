@@ -7,8 +7,8 @@ from sqlalchemy import event
 from sqlalchemy.engine import Engine
 from app import db
 import shutil
-from .models import GlobalConfiguration
-from .forms import getConfigurationForm
+from .models import GlobalConfiguration, AllowedApps
+from .forms import getConfigurationForm, AllowedAppsForm, UpdateAppForm
 from app.loginAccount.models import UserConfiguration
 import json
 
@@ -175,3 +175,64 @@ def getGlobalConfForUserConf():
 
     return global_conf
 
+
+
+def getAllApplications():
+    return AllowedApps.query.all()
+
+
+def getAllApplicationsCount():
+    appCount = AllowedApps.query.count()
+    return appCount
+
+@second.route('/allowed_apps', methods=['GET', 'POST'])
+@login_required
+def addAllowedApps():
+    form = AllowedAppsForm()
+    allowed_apps = AllowedApps.query.all()
+
+    if request.method == 'POST':
+        if not form.validate_on_submit():
+            return render_template('settings/allowed_apps.html', form=form)
+
+        app = AllowedApps(application_title=form.application_title.data,
+                          application_tag=form.application_tag.data)
+        db.session.add(app)
+        db.session.commit()
+        flash(f'App added successfully', 'success')
+    allApps = getAllApplications()
+
+    return render_template('settings/allowed_apps.html', form=form, allApps = allApps)
+
+
+@second.route('/<id>', methods=['GET', 'POST'])
+@login_required
+def edit_app(id):
+    app = AllowedApps.query.filter_by(id=id).first()
+    
+    form = UpdateAppForm()
+
+    if request.method == 'POST':
+        if not form.validate_on_submit():
+            return render_template('settings/edit-app.html', form=form, app=app)
+
+        app.application_tag      = form.application_tag.data
+        app.application_title  = form.application_title.data
+        db.session.commit()
+        flash("Information has been updated", "success")
+    return render_template('settings/edit-app.html', form=form, app=app)
+
+
+@second.route('/del_app/<id>', methods=['GET','POST'])
+@login_required
+def del_app(id):
+    app = AllowedApps.query.filter_by(id= id).first()
+    print("*****************",app)
+    application_title = app.application_title
+    app = AllowedApps.query.filter_by(id=id).delete()
+   
+    db.session.commit()
+
+    if app:
+        flash("Successfully deleted "+ application_title, "success")
+    return redirect(url_for('settings.addAllowedApps'))

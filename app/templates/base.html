@@ -118,13 +118,13 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item menu-open">
-              <a href="{{url_for('home.index')}}" class="nav-link active">
+              <a href="{{url_for('home.index')}}" class="nav-link {{'active' if active_page == 'home' }}">
                 <i class="nav-icon fas fa-home"></i>
                 <p>Home</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
+            <li class="nav-item {{'menu-open menu-is-opening' if active_page == 'users' }}">
+              <a href="#" class="nav-link {{'active' if active_page == 'users' }}">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
                   Users
@@ -133,21 +133,21 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{url_for('users.add_user')}}" class="nav-link active">
+                  <a href="{{url_for('users.add_user')}}" class="nav-link {{'active' if active_inner == 'addUsers' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Add New User</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{url_for('users.all_user')}}" class="nav-link">
+                  <a href="{{url_for('users.all_user')}}" class="nav-link {{'active' if active_inner == 'allUsers' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>All Users</p>
                   </a>
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
+            <li class="nav-item {{'menu-open menu-is-opening' if active_page == 'accounts' }}">
+              <a href="#" class="nav-link {{'active' if active_page == 'accounts' }}">
                 <i class="nav-icon fas fa-copy"></i>
                 <p>
                   Login Accounts
@@ -156,21 +156,21 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{url_for('login_account.register_user')}}" class="nav-link">
+                  <a href="{{url_for('login_account.register_user')}}" class="nav-link {{'active' if active_inner == 'addAcc' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Add New Account</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{url_for('login_account.index')}}" class="nav-link">
+                  <a href="{{url_for('login_account.index')}}" class="nav-link {{'active' if active_inner == 'manageAcc' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Manage Existing Account</p>
                   </a>
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
+            <li class="nav-item {{'menu-open menu-is-opening' if active_page == 'reports' }}">
+              <a href="#" class="nav-link {{'active' if active_page == 'reports' }}">
                 <i class="nav-icon fas fa-file-excel"></i>
                 <p>
                   Reports
@@ -179,15 +179,15 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="#" class="nav-link {{'active' if active_inner == 'usageReports' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Usage Reports</p>
                   </a>
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
+            <li class="nav-item {{'menu-open menu-is-opening' if active_page == 'settings' }}">
+              <a href="#" class="nav-link {{'active' if active_page == 'settings' }}">
                 <i class="nav-icon fas fa-cog"></i>
                 <p>
                   Settings
@@ -196,13 +196,13 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{ url_for('settings.global_configuration') }}" class="nav-link">
+                  <a href="{{ url_for('settings.global_configuration') }}" class="nav-link {{'active' if active_inner == 'config' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Configuration</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="{{ url_for('settings.addAllowedApps') }}" class="nav-link {{'active' if active_inner == 'allowedApps' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Allowed Apps</p>
                   </a>

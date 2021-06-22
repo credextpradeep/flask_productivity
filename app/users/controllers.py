@@ -4,7 +4,7 @@ from datetime import datetime
 from flask_login import login_required
 from flask import Blueprint, render_template, url_for, request, flash, redirect
 
-from app.users.forms import RegisterUserBasicInformation
+from app.users.forms import RegisterUserBasicInformation, UpdateBasicInformation
 
 from app.loginAccount.models import User, UserConfiguration, Organisation, UserGroup, UserMembership
 
@@ -38,9 +38,9 @@ def add_user():
 
         if not basicInfoForm.validate_on_submit():
             return render_template('user/add_user.html', form = globalConfForm, basicInfoForm = basicInfoForm)
-
-        if basicInfoForm.status.data == 1:
-          status = 'F'
+        status = 'F'
+        if basicInfoForm.status.data == 'T':
+          status = 'T'
         username = basicInfoForm.username.data
 
         credext = Organisation.query.filter_by(name='Credext').first()
@@ -71,81 +71,60 @@ def add_user():
 @second.route('/all_user', methods=['GET'])
 @login_required
 def all_user():
-    all_users = getAllBiousers()
-    for user in all_users:
-        print(user.firstname)
+    all_users = getAllUsers()
+    # for user in all_users:
+    #     print(user.firstname)
     return render_template('user/all_user.html', all_users=all_users)
 
 
-def getAllBiousers():
+def getAllUsers():
     return User.query.filter_by(group_id = UserGroup.query.with_entities(UserGroup.id).filter_by(role="Admin"), approved='T').all()
 
 
-def getBiousersCount():
-    return User.query.filter_by(group_id = UserGroup.query.with_entities(UserGroup.id).filter_by(role="Admin")).count()
+def getUsersCount():
+    userCount = User.query.filter_by(group_id = UserGroup.query.with_entities(UserGroup.id).filter_by(role="Admin")).count()
+    return userCount
     
 def getTimeStamp():
     """Get time stamp that can be used in file names."""
     stamp = datetime.now()
     return stamp.strftime('%Y%m%d_%H%M%S%f')
 
-
-
-
-
-@second.route('/<username>', methods=['GET','POST'])
-@login_required
-def update_user(username):
-    user_info = User.query.filter_by(username=username).first()
-    print('**************',user_info)
-    usr_configuration = UserConfiguration.query.filter_by(user_id = user_info.id).first()
-    if usr_configuration:
-        conf = getUserConfiguration(usr_configuration.configuration)
-    else:
-        conf = getGlobalConfForUserConf()
-    
-    configuration_form = getConfigurationForm(conf)
-
-    return render_template('user/update-user.html', user=user_info, form=configuration_form)
-
-
 @second.route('/<username>', methods=['GET', 'POST'])
 @login_required
-def update_basic_info(username):
-    user_info =  user_info = User.query.filter_by(username=username).first()
-    if request.method == "POST":
-        if not request.form.get('first_name'):
-            flash('First Name is not valid.', 'error')
-        elif not request.form.get('last_name'):
-            flash('Last Name is not valid.', 'error')
-        elif not request.form.get('email'):
-            flash('Email is not valid.', 'error')
-        else:
-            user_info.firstname = request.form.get('first_name')
-            user_info.lastname = request.form.get('last_name')
-            user_info.email = request.form.get('email')
-            user_info.block_user = request.form.get('status')
-            db.session.commit()
-            flash('Basic Information updated Successfully', 'success')
-    else:
-        flash('User not found', 'error')
-    # redirect(URL('biousers', 'update_user', vars=dict(user=user_info.username)))
-    return render_template('user/update-user.html', user=user_info)
+def edit_user(username):
+    user = User.query.filter_by(username=username).first()
     
+    form = UpdateBasicInformation()
+    defaultStatus, statusChoices = getUserStatus()
+    form.status.choices = statusChoices
+    form.status.default = defaultStatus
 
-@second.route('/update_user_configuration', methods=['GET', 'POST'])
-def update_user_configuration():
-    user_info = User.query.filter(User.username == request.form.get('username')).first()
-    conf = UserConfiguration.query.filter(UserConfiguration.user_id == user_info.id).first()
-    # conf = db(db.usr_configuration.user_id == user_info.id).select()[0]
-    print(json.dumps(request.form))
-    
-    conf.configuration = setUserConfiguration(request.form)
-    db.session.add(conf)
+    if request.method == 'POST':
+        if not form.validate_on_submit():
+            return render_template('user/update-user.html', form=form, user=user)
+
+        user.email      = form.email.data
+        user.firstname  = form.firstname.data
+        user.lastname   = form.lastname.data
+        user.block_user = form.status.data
+        db.session.commit()
+        flash("Information has been updated", "success")
+    return render_template('user/update-user.html', form=form, user=user)
+
+@second.route('/del_user/<user_id>', methods=['GET','POST'])
+@login_required
+def del_user(user_id):
+    user = User.query.filter_by(id= user_id).first()
+    username = user.username
+    UserConfiguration.query.filter_by(user_id=user.id).delete()
+    UserMembership.query.filter_by(user_id = user.id).delete()
+    user = User.query.filter_by(username=username).delete()
     db.session.commit()
-    flash('Configuration updated successfully.', 'success')
-    # redirect(URL('biousers', 'update_user', vars=dict(user=user_info.username)))
-    return redirect(url_for('biousers.update_user', username=user_info.username))
+
+    if user:
+        flash("Successfully deleted "+ username, "success")
+    return redirect(url_for('users.all_user'))
 
 
 def getUserConfiguration(user_configuration):
@@ -156,7 +135,10 @@ def getUserConfiguration(user_configuration):
     conf["CS1"] = int(configuration["CS1"])
     conf["CS2"] = int(configuration["CS2"])
     conf["CS3"] = int(configuration["CS3"])
-    conf["CS4"] = int(configuration["CS4"])
+    if configuration["CS4"] == 1:
+        conf["CS4"] = True
+    else:
+        conf["CS4"] = False
     conf["CS5"] = int(configuration["CS5"])
     conf["CS6"] = int(configuration["CS6"])
     conf["CS7"] = int(configuration["CS7"])
@@ -198,9 +180,12 @@ def setUserConfiguration(request):
     conf["CS1"]     = int(request.get("CS1"))
     conf["CS2"]     = int(request.get("CS2"))
     conf["CS3"]     = int(request.get("CS3"))
+    if request.get("CS4"):
+        conf["CS4"] = 1
+    else:
+        conf["CS4"] = 0
     conf["CS4"]     = int(request.get("CS4"))
-    conf["CS4"]     = int(request.get("CS4"))
-    conf["CS5"]     = float(request.get("CS5"))
+    conf["CS5"]     = int(request.get("CS5"))
     conf["CS6"]     = int(request.get("CS6"))
     conf["CS7"]     = int(request.get("CS7"))
     conf["CS8"]     = int(request.get("CS8"))

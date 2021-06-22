@@ -1,7 +1,6 @@
     <div class="card mt-2">
       <h5 class="card-header">Configuration Settings</h5>
       <div class="card-body">
-        <form action="" method="POST">
           {{ form.hidden_tag() }}
           <div class="row mb-3">
             {{ form.CS1.label(class="col-sm-4 col-form-label fw-bold")}}
@@ -85,9 +84,7 @@
             {{form.CS14.label(class="col-sm-4 col-form-label")}}
             <div class="col-8">{{form.CS14}}</div>
           </div>
-          <div class="mt-4 text-center">
-            {{form.submit(class="btn btn-primary")}}
-          </div>
-        </form>
+          
+        
       </div>
     </div>

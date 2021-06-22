@@ -1,0 +1,48 @@
+{% set active_page ='settings' %}
+{% set active_inner ='allowedApps' %}
+{% extends 'base.html' %}
+{% block breadcrumb %}
+<div class="col-12 col-sm-6 col-lg-6">
+  <h3>Edit Application</h3>
+</div>
+<div class="col-sm-6 col-lg-6 d-none d-lg-block">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{url_for('home.index')}}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{url_for('settings.addAllowedApps')}}">Settings</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Allowed Apps</li>
+  </ol>
+</div>
+{% endblock %}
+{% block content %}
+{% include 'flashmsg.html' %}
+{% include 'error_flash.html' %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8 col-12 col-md-6 m-auto">
+      <div class="card">
+        <h5 class="card-header">Edit App</h5>
+        <div class="card-body">
+          <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            <div class="row mb-3">
+              {{form.application_title.label(class="col-sm-4 col-form-label fw-bold")}}
+              <div class="col-sm-8">
+                {{form.application_title(class="form-control", value=app.application_title)}}
+              </div>
+            </div>
+            <div class="row mb-3">
+              {{form.application_tag.label(class="col-sm-4 col-form-label fw-bold")}}
+              <div class="col-sm-8">
+                {{form.application_tag(class="form-control", value=app.application_tag)}}
+              </div>
+            </div>
+            <div class="mt-4 text-center">
+              {{form.submit(class="btn btn-primary")}}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

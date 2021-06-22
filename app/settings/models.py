@@ -9,3 +9,13 @@ class GlobalConfiguration(db.Model):
 
     created_at  = db.Column(db.DateTime, default=db.func.now())
     updated_at  = db.Column(db.DateTime, onupdate=db.func.now())
+
+
+class AllowedApps(db.Model):
+    __tablename__ = 'allowed_apps'
+
+    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
+    application_title = db.Column(db.String(100))
+    application_tag = db.Column(db.String(20))
+    created_at  = db.Column(db.DateTime, default=db.func.now())
+    updated_at  = db.Column(db.DateTime, onupdate=db.func.now())

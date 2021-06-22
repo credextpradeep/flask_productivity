@@ -1,3 +1,4 @@
+{% set active_page ='home' %}
 {% extends 'base.html' %}
 {% block breadcrumb %}
 <div class="col-sm-6">
@@ -18,7 +19,7 @@
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
-          <h3>150</h3>
+          <h3>{{ stats.get("usercount") }}</h3>
 
           <p>All Users</p>
         </div>
@@ -32,7 +33,7 @@
       <!-- small box -->
       <div class="small-box bg-success">
         <div class="inner">
-          <h3>53<sup style="font-size: 20px">%</sup></h3>
+          <h3>{{ stats.get('yesterdayLoginCount')}}</h3>
 
           <p>Yesterday's login count</p>
         </div>
@@ -60,7 +61,7 @@
       <!-- small box -->
       <div class="small-box bg-danger">
         <div class="inner">
-          <h3>65</h3>
+          <h3>{{ stats.get("appcount") }}</h3>
 
           <p>Allowed apps</p>
         </div>

@@ -31,4 +31,4 @@ def get_glob_config():
 
 # returns default value , choices
 def getUserStatus():
-    return 1, [(1, "Activate"), (0, "Deactivate")]
+    return 1, [('F', "Activate"), ('T', "Deactivate")]

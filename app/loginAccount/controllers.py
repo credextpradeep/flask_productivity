@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from .forms import Registrationform, UpdateUser
 from app import db
-from .models import User, UserGroup
+from .models import User, UserGroup, UserConfiguration, UserMembership
 from flask_login import login_required
 second = Blueprint("login_account",__name__,template_folder="templates",url_prefix='/login_account')
 
@@ -37,6 +37,7 @@ def register_user():
                     lastname=form.lastname.data,
                     group_id=form.account_type.data,
                     email=form.email.data,
+                    organisation_id=1,
                     password=form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -68,3 +69,18 @@ def edit_user(username):
         db.session.commit()
         flash("Information has been updated", "success")
     return render_template('users/edit-user.html', form=form, user=user, group=user_group)
+
+
+@second.route('/del_loginUser/<user_id>', methods=['GET','POST'])
+@login_required
+def del_loginUser(user_id):
+    user = User.query.filter_by(id= user_id).first()
+    username = user.username
+    UserConfiguration.query.filter_by(user_id=user.id).delete()
+    UserMembership.query.filter_by(user_id = user.id).delete()
+    user = User.query.filter_by(username=username).delete()
+    db.session.commit()
+
+    if user:
+        flash("Successfully deleted "+ username, "success")
+    return redirect(url_for('login_account.index'))

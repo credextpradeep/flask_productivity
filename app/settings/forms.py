@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,SelectField,SubmitField, IntegerField, BooleanField
 from wtforms.validators import DataRequired
 
+from app.settings.models import AllowedApps
 
 class GlobalConfigurationForm(FlaskForm):
 
@@ -51,7 +52,7 @@ class GlobalConfigurationForm(FlaskForm):
 
  
 
-  submit          = SubmitField("Update Config")
+  submit = SubmitField("Update Config")
 
 def getConfigurationForm(conf) :
         return GlobalConfigurationForm(
@@ -70,3 +71,56 @@ def getConfigurationForm(conf) :
                         CS13 = int(conf["CS13"]),
                         CS14 = int(conf["CS14"]),
                 )
+
+class AllowedAppsForm(FlaskForm):
+  application_title = StringField('Application Title',
+                      [DataRequired("Application title can not be empty")],
+                      render_kw={"placeholder":"Application Title",'class':'form-control','required':True})
+
+  application_tag = StringField('Application Tag',
+                    [DataRequired("Application tag can not be empty")], 
+                    render_kw={"placeholder":"Application Tag",'class':'form-control','required':True})
+  
+  submit          = SubmitField("Submit")
+
+  def __init__(self, *args, **kwargs):
+    FlaskForm.__init__(self, *args, **kwargs)
+    
+  def validate_on_submit(self):
+    if not FlaskForm.validate_on_submit(self):
+      return False
+
+    application_title = AllowedApps.query.filter_by(
+        application_title=self.application_title.data.lower()).first()
+    application_tag = AllowedApps.query.filter_by(
+        application_tag=self.application_tag.data.lower()).first()
+    if application_tag:
+        self.application_tag.errors.append("This application tag is not available")
+        return False
+    if application_title:
+        self.application_title.errors.append("This application title is not avaiable")
+        return False
+    return True
+
+class UpdateAppForm(FlaskForm):
+  application_title = StringField('Application Title',
+                      [DataRequired("Application title can not be empty")],
+                      render_kw={"placeholder":"Application Title",'class':'form-control','required':True})
+
+  application_tag = StringField('Application Tag',
+                    [DataRequired("Application tag can not be empty")], 
+                    render_kw={"placeholder":"Application Tag",'class':'form-control','required':True})
+  
+  submit          = SubmitField("Submit")
+
+  def __init__(self, *args, **kwargs):
+        FlaskForm.__init__(self, *args, **kwargs)
+    
+  def validate_on_submit(self):
+    """
+
+    :rtype: bool
+    """
+    if not FlaskForm.validate_on_submit(self):
+      return False
+    return True
