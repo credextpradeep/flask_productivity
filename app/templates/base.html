@@ -21,6 +21,7 @@
     href="{{url_for('static',filename='adminLTE3/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- JQVMap -->
   <link rel="stylesheet" href="{{url_for('static',filename='adminLTE3/plugins/jqvmap/jqvmap.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='css/calendar.css')}}">
   <!--Data Table-->
   <link rel="stylesheet" href="{{url_for('static',filename='adminLTE3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{url_for('static',filename='adminLTE3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
@@ -170,7 +171,7 @@
               </ul>
             </li>
             <li class="nav-item {{'menu-open menu-is-opening' if active_page == 'reports' }}">
-              <a href="#" class="nav-link {{'active' if active_page == 'reports' }}">
+              <a href="#", class="nav-link {{'active' if active_page == 'reports' }}">
                 <i class="nav-icon fas fa-file-excel"></i>
                 <p>
                   Reports
@@ -179,9 +180,9 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="#" class="nav-link {{'active' if active_inner == 'usageReports' }}">
+                  <a href="{{url_for('usege_reports.usege_reports')}}" class="nav-link {{'active' if active_inner == 'usageReports' }}">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Usage Reports</p>
+                    usege reports
                   </a>
                 </li>
               </ul>
@@ -257,6 +258,7 @@
 
   <!-- jQuery -->
   <script src="{{url_for('static',filename='adminLTE3/plugins/jquery/jquery.min.js')}}"></script>
+  <script src="{{url_for('static',filename='js/calendar.js')}}"></script>
   <!-- jQuery UI 1.11.4 -->
   <script src="{{url_for('static',filename='adminLTE3/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

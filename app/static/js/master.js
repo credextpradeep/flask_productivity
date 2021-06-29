@@ -34,4 +34,15 @@ $(document).ready(function(){
     }
 
   });
+  
+  $(function() {
+    $('input[name="date_range"]').daterangepicker({
+      opens: 'right'
+    }, 
+    function() {
+      // start_date=start.today()
+      // end_date=end.today()-timedelta(days=7)
+      // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    });
+  });
 });

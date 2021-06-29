@@ -39,9 +39,9 @@ def hello_world():
     return "<h1>Test</h1>"
 
 
-# @app.route('/test')
-# def test():
-#     return render_template("new.html")
+# @app.route('/report')
+# def report():
+#     return render_template("report.html")
 # @app.route('/<name>') 
 # def user(name):
 #   return f"Hello {name}"

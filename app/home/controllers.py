@@ -5,7 +5,7 @@ from app.reports.controllers import getYesterdayLoginCount
 second = Blueprint("home",__name__,template_folder="templates",url_prefix='/home')
 
 
-@second.route("/")
+@second.route("/") 
 def index():
     users = {user.username:{"id": user.id, "name":user.firstname+" "+user.lastname} for user in getAllUsers()}
     stats = {}
